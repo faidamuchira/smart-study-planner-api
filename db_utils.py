@@ -59,5 +59,42 @@ def add_session(subject, duration, difficulty, date):
         print("Error adding session:", e)
         
         return "Error"
+def get_recommendation():
+    """
+    Recommend the subject that has been studied the least.
+
+    The aim is to help the user balance their study time across subjects.
+    """
+    try:
+        # Establish a connection to the database
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        
+        # Query to count how many times each subject appears
+        # Order by lowest count first i.e least studied subject
+        query = """
+        SELECT subject, COUNT(*) AS study_count
+        FROM study_sessions
+        GROUP BY subject
+        ORDER BY study_count ASC
+        LIMIT 1
+        """
+        
+        cursor.execute(query)
+        
+        # Get one result(least studied subject)
+        result = cursor.fetchone()
+        
+        conn.close()
+        
+        # If data exists, return recommendation
+        if result:
+            return f"You should study more: {result['subject']}"
+        else:
+            return "No study data available"
+        
+    except Exception as err:
+        print("Error getting recommendation:", err)
+        return "Error"
         
         
