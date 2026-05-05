@@ -69,5 +69,17 @@ def create_session():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
+@app.route("/recommend", methods=["GET"])
+def recommend():
+    # Return recommended subject to study based on least studied.
+    
+    try:
+        recommendation = get_recommendation()
+        
+        return jsonify({"recommendation": recommendation}), 200
+    except Exception as err:
+        return jsonify({"error": str(err)}), 500
+        
+    
 if __name__ == "__main__":
     app.run(debug=True)
