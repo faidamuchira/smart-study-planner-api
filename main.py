@@ -28,10 +28,11 @@ def add_session_client(subject, duration, difficulty, date):
         
         print("\n Add Session Response: ")
         
-        # Convert response to JSON and print
-        print(response.json())
+        # Convert response to JSON and message from the API
+        print(response.json()["message"])
         
     except Exception as err:
+        # Catch connection issue errors
         print("Error sending POST request:", err)
         
 def get_sessions_client():
@@ -39,12 +40,26 @@ def get_sessions_client():
     try:
         # Send GET request to /sessions endpoint
         response = requests.get(f"{BASE_URL}/sessions")
+        # Convert JSON response into Python list
+        sessions = response.json()
         
         print("\n All Study Sessions: ")
-        # Print JSON response
-        print(response.json())
+        # Handle case where no data exist
+        if not sessions:
+            print("No study sessions found.\n")
+            return
+
+        # Loop through each session and print details clearly
+        for session in sessions:
+            print(f"ID: {session['id']}")
+            print(f"Subject: {session['subject']}")
+            print(f"Duration: {session['duration']} mins")
+            print(f"Difficulty: {session['difficulty']}")
+            print(f"Date: {session['date']}")
+            print("-" * 30)
         
     except Exception as err:
+        # Catch error during request
         print("Error fetching sessions:", err)
         
 def get_recommendation_client():
@@ -54,10 +69,13 @@ def get_recommendation_client():
         # Send GET request to /recommend endpoint
         response = requests.get(f"{BASE_URL}/recommend")
         
-        print("\n Study Recommendation:")
+        # Convert response to JSON
+        data = response.json()
         
-        # print json response
-        print(response.json())
+        print("\n 💡Study Recommendation:\n")
+        
+        # Display recommendation message
+        print(data["recommendation"])
 
     except Exception as e:
         print("Error getting recommendation:", e)
@@ -72,8 +90,10 @@ def run():
     3. Retrieves all sessions
     4. Gets a recommendation
     """
-
+    
+    print("\n" + "=" * 40)
     print("📚 Welcome to Smart Study Planner API\n")
+    print("=" * 40)
 
     # Check if API is running
     try:
