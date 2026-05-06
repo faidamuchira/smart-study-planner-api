@@ -42,12 +42,6 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## 2. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
 ---
 
 # 🔐 Configuration
