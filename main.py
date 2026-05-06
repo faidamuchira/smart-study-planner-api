@@ -34,7 +34,24 @@ def add_session_client(subject, duration, difficulty, date):
     except Exception as err:
         print("Error sending POST request:", err)
         
-if __name__ == "__main__":
-    add_session_client("Math", 60, 3, "2026-05-04")
+def get_sessions_client():
+    # Send a GET request to retrieve all study sessions.
+    try:
+        # Send GET request to /sessions endpoint
+        response = requests.get(f"{BASE_URL}/sessions")
+        
+        print("\n All Study Sessions: ")
+        # Print JSON response
+        print(response.json())
+        
+    except Exception as err:
+        print("Error fetching sessions:", err)
+        
 
+        
+
+
+        
+if __name__ == "__main__":
+    get_sessions_client()
     
