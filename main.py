@@ -47,6 +47,22 @@ def get_sessions_client():
     except Exception as err:
         print("Error fetching sessions:", err)
         
+def get_recommendation_client():
+    # Send a GET request to get a study recommendation.
+    
+    try:
+        # Send GET request to /recommend endpoint
+        response = requests.get(f"{BASE_URL}/recommend")
+        
+        print("\n Study Recommendation:")
+        
+        # print json response
+        print(response.json())
+
+    except Exception as e:
+        print("Error getting recommendation:", e)
+        
+        
 
         
 
@@ -54,4 +70,5 @@ def get_sessions_client():
         
 if __name__ == "__main__":
     get_sessions_client()
+    get_recommendation_client()
     
